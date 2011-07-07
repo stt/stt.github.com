@@ -1,0 +1,21 @@
+---
+layout: default
+---
+<article>
+  <h2 class="topic">
+  	<a href="{{ site.posts.first.url }}">{{ site.posts.first.title }} - 
+	  <time datetime="{{ site.posts.first.date | xmlschema }}">{{ site.posts.first.date | date: "%d %b, %Y" }}</time></a>
+  </h2>
+	<div class="">
+  {{ site.posts.first.content }}
+  </div>
+</article>
+
+<h2 class="subtitle">The amazing chronicles..</h2>
+<div class="trans"><ul>
+{% for post in site.posts %}
+	<li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ post.url }}">{{ post.title }}</a></li>
+{% endfor %}
+</ul>
+</div>
+
