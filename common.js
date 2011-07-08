@@ -43,14 +43,29 @@ Array.prototype.rotate = function(n) {
 }
 
 var pagebgs = [
+	{lbl:'wOOdY',img:'wood.jpg'},
 	{lbl:'trIppY',img:'floralpat.jpg'},
-	{lbl:'wOOdY',img:'wood.jpg'}
+	{lbl:'aWeS0Me',img:'awesome.jpg'},
+	{lbl:'BuBBLeS',img:'bubbles.jpg'},
 ];
 
 $(function() {
 
+	var actbg = $.cookie('actbg');
+	if(actbg != null) {
+		for(var i=0; i<pagebgs.length; i++) {
+			if(pagebgs[i].img == actbg) {
+				switchBg($('body'), '/images/'+pagebgs[i].img);
+				var nextbg = pagebgs.rotate(i+1)[0];
+				$('#csswitch').text(nextbg.lbl);
+				break;
+			}
+		}
+	}
+
 	$('#csswitch').click(function(){
 		switchBg($('body'), '/images/'+pagebgs[0].img);
+		$.cookie('actbg', pagebgs[0].img, {path:'/'});
 		var nextbg = pagebgs.rotate(1)[0];
 		$(this).text(nextbg.lbl);
 	});

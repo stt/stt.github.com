@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Instant messaging chatbots, cruise control for annoyance
-categories: perl internet
+tags: perl internet
 ---
 
 Ehlo fellow interdweebs. Here's a little plugin for Pidgin the instant messaging client I wrote yesterday after an inspiring water cooler chat with a coworker about how tiring it sometimes gets doing software support to a customer by IM.

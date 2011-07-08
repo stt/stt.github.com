@@ -9,8 +9,8 @@ layout: default
 	  <time datetime="{{ page.date | xmlschema }}">{{ page.date | date: "%d %b, %Y" }}</time>
   </h2>
   <span class="cats">
-  {% for cat in page.categories %}
-    {{ cat }}{% if forloop.rindex > 1 %},{% endif %}
+  {% for tag in page.tags %}
+    {{ tag }}{% if forloop.rindex > 1 %},{% endif %}
   {% endfor %}<br/>
   </span>
   
