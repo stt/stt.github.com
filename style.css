@@ -65,7 +65,9 @@ p {
 	font-size: 1.1em;
 }
 
-.gist a { text-shadow:none; }
+.dsq-popup a, .gist a {
+	text-shadow:none;
+}
 .gist .gist-file .gist-data {
 	font-size: 75% !important;
 	height: 400px;
