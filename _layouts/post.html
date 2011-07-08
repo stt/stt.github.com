@@ -4,11 +4,16 @@ layout: default
 <h3><a href="/">&laquo; back</a></h3>
 
 <div id="post">
-  <h2 class="topic">
-  	{{ site.posts.first.title }} - 
-	  <time datetime="{{ site.posts.first.date | xmlschema }}">{{ site.posts.first.date | date: "%d %b, %Y" }}</time>
+  <h2 class="">
+  	{{ page.title }} - 
+	  <time datetime="{{ page.date | xmlschema }}">{{ page.date | date: "%d %b, %Y" }}</time>
   </h2>
-  <h2 class="">{{ page.title }}</h2>
+  <span class="cats">
+  {% for cat in page.categories %}
+    {{ cat }}{% if forloop.rindex > 1 %},{% endif %}
+  {% endfor %}<br/>
+  </span>
+  
   {{ content }}
 </div>
 

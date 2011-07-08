@@ -11,6 +11,12 @@ body {
     margin: 0 auto;
     width: 999px;
 }
+#csswitch {
+	float:right;
+	text-shadow: 5px 5px 10px crimson;
+	color: #FFCC33;
+	cursor: pointer;
+}
 #title {
     font-size: 6.4em;
     font-weight: bold;
@@ -45,11 +51,23 @@ h2.topic {
     position: relative;
     text-align: right;
 }
+.cats {
+	font-size:0.9em;
+	color:wheat;
+	position:relative;
+	top:-10px;
+}
 p {
 	text-shadow: 0 0 10px black;
 	font-family: serif;
 	line-height: 1.5em;
 	margin-bottom: 1em;
 	font-size: 1.1em;
+}
+
+.gist a { text-shadow:none; }
+.gist .gist-file .gist-data {
+	font-size: 75% !important;
+	height: 400px;
 }
 

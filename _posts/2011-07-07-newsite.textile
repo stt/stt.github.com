@@ -1,10 +1,10 @@
 ---
 layout: post
-title: Intro
+title: New site
 ---
 
 Hey there. So, this' my new site, ya like?
-It's got all the bells and whistles again; jekyll, liquid, textile, yaml etc. stuff that you need to know to use GitHub Pages.
+Once again had to try out some new bells and whistles; jekyll, liquid, textile, yaml etc. stuff that you need for GitHub Pages.
 
 Honestly I thought it'd been kind of a drag having to learn so much at once just for a static site, especially since I already have to bounce between dozens (seriously, counted them) of different languages and markups all day long.
 But in the end all it really took was running @jekyll --server --auto@ and everything worked within half an hour, and I love it!
