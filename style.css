@@ -73,3 +73,12 @@ p {
 	height: 400px;
 }
 
+.dosboxdbg {
+	background-color: #2e3436;
+	color: #d2d7cf;
+}
+.dosboxdbg .hilight {
+	background-color: #06989a;
+	color: #1e3f44;
+}
+

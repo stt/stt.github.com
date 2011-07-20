@@ -1,0 +1,113 @@
+---
+layout: post
+title: Owning classic PC games in Dosbox
+tags: python dosbox
+---
+
+If you're old enough to have seen the PC gaming scene in early nineties, you might remember all the hexediting cheats in game magazines, trainers integrated into pirate copies and all kinds of tools available for download in the local BBSs.
+
+Nowadays when the retrogaming bug bites it's easy enough to grab a copy from abandonware site and load it up in Dosbox, but after a few minutes it usually becomes apparent your old favorites ask for way more patience than you're ready to give in comparison to modern titles. And you might find it'd be nice to enable a cheat just to browse around..
+
+That's what I've been thinkin about anyway, so first, there are a few ways to do memory scanning, for one you might take a @MEMDUMPBIN@ from Dosbox debugger, scan for a value in hexeditor then take a second dump and crossreference changes, but you can see how this just won't do.
+Second, there are a few memory scanners also for Linux; scanmem (with a GUI called gameconqueror) seems to works just as well as the Windows ones and would normally be the way to go. Except, they depend on the specific version of the emulator because the base address of the emulated memory changes. And especially if you're compiling new versions all the time, keeping the addresses up to date is just silly.
+Third, I wanted something like the trainers of the past, that's just ready to go once you load the game, so here's cheat.py..
+
+<script src="https://gist.github.com/1094887.js?file=cheat.py"></script>
+
+Currently the script supports SQLite database for loading/saving variable locations and code change locations. Also rudimentary memory scanning/filtering/holding operations are available.
+Once the script is loaded into Dosbox, when you break into the debugger and run @HELP@, you'll also get the commands that the script supports..
+
+<notextile>
+<pre class="dosboxdbg">
+<span class="hilight">---(Output          Scroll: home/end    )---</span>
+cheat.py commands:                                                              
+--------------------------------------------------------------------------      
+CLST     List available code changes for running binary                         
+COFF     Reverse previous code change                                           
+CON      Alter the code / apply a cheat                                         
+MFILT    Filter previously searched locations with a new value                  
+MHOLD    Watch a memory location and prevent changes (16bit values atm)         
+MLST     List previously searched/filtered values                               
+MSAVE    Save current set of variables                                          
+MSRCH    Search allocated memory for a value                                    
+MV       Modify variable
+                                                                                
+Debugger commands (enter all values in hex or as register):                     
+--------------------------------------------------------------------------      
+F3/F6                     - Previous command in history.                        
+F4/F7                     - Next command in history.                            
+</pre>
+</notextile>
+
+<br/>
+Since it'd just be silly to start collecting cheats to each game from scratch, I tried to find some software that had an existing library of cheats and try to reuse those.
+From what I gathered from google there seems to be surprisingly few projects still alive, ArtMoney was the simplest to adapt so I wrote this parser for the table files..
+
+<script src="https://gist.github.com/1094887.js?file=amtloader.py"></script>
+
+It supports .amt file format versions 2-11 and should parse cheats for the 220 DOS games available from the "official site":http://www.artmoney.ru/e_tables.htm.
+One thing though with these premade tables is that pretty much all of them have a different zero address, so thus far I've been using this small script to readdress the variables based on one known offset.
+
+<script src="https://gist.github.com/1094887.js?file=amtfix.py"></script>
+
+Each time a binary file is executed a hash is taken (using MurmurHash algorithm, it's one of the fastest and most collision resistant hashes) and passed to callback function in cheat.py. If the script finds a match for the hash in cheat.db SQLite database it loads the variables to the debugging GUI.
+
+Here's an example of a game with fields:
+
+<notextile>
+<pre class="dosboxdbg">
+<span class="hilight">---(Variable Overview                   )---</span>
+Item 8           0x0000   Item 6           0x0000   Item 3           0x0000     
+Item 2           0x0000   Item 1           0x0000   Item 7           0x0000     
+Gun              0x0000   Item 5           0x0000   Item 4           0x0000     
+Health           0x0006   Highlighted Ite  0x0000                               
+<span class="hilight">
+---(Output          Scroll: home/end    )---</span>
+         0: EXEC:Execute BLACK.EXE 0                                            
+Running hash 54fc432a                                                           
+11 fields and 0 codes for Black Thorne
+Item 8 11ae8                                                                    
+Item 6 11ae4                                                                    
+Item 3 11ade                                                                    
+Item 2 11adc                                                                    
+Item 1 11ada                                                                    
+Item 7 11ae6                                                                    
+Gun e06c                                                                        
+Item 5 11ae2                                                                    
+Item 4 11ae0                                                                    
+Health 112da                                                                    
+Highlighted Item 11ad8
+</pre>
+</notextile>
+
+<br/>
+cheat.py also adds @MV@ (Modify Variable) that takes a variable name (case-sensitive) and hex value to set to the variable, but you can of course take an offset from the field list in the log and do @D 0:112da@ to verify and then @SM 0:112da 06@ to set memory to a value (keep in mind it's little-endian).
+Or, if you command @MHOLD Health@ for example, it creates a breakpoint that triggers a callback when a memory location is changed and restores the original value.
+(If held memory area is written to constantly there's likely to be some performance drawbacks, for e.g. immobilizing enemy it'd make more sense to NOP some code.)
+
+<notextile>
+<pre class="dosboxdbg">
+holding Health{70362: '\x04\x00'}                                               
+DEBUG: Set memory breakpoint at 0000:112DA                                      
+</pre>
+</notextile>
+
+<br/>
+And an example of a code change, last two lines are from @CLST@ and @CON Invincible@ commands
+
+<notextile>
+<pre class="dosboxdbg">
+<span class="hilight">---(Output          Scroll: home/end    )---</span>
+      5853: EXEC:Execute C:\EOB.EXE 3                                           
+Running hash e7565a0a                                                           
+0 fields and 1 codes for Eye of the Beholder 1
+Invincible: found at offset 59812                                          
+Invincible applied
+</pre>
+</notextile>
+
+<br/>
+This ain't all that user friendly yet, since you have to compile it and all, but by the time there's a Windows installer ready with Python support etc I've hopefully added a wx GUI for all this cheating stuff.
+Until then, happy gaming.
+
+
