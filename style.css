@@ -74,8 +74,17 @@ p {
 	text-shadow:none;
 }
 .gist .gist-file .gist-data {
-	font-size: 75% !important;
+	font-size: 90% !important;
 	height: 400px;
+	background:black !important;
+	color: white;
+	-moz-tab-size: 2;
+}
+.gist-syntax .k, .gist-syntax .o, .gist-syntax .ow {
+  color:red !important;
+}
+.gist-meta {
+	font-size: 65% !important;
 }
 
 .dosboxdbg {
