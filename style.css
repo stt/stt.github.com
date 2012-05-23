@@ -73,7 +73,7 @@ p {
 .dsq-popup a, .gist a {
 	text-shadow:none;
 }
-.gister-gist .gist-file .gist-data,
+
 .gist .gist-file .gist-data {
 	font-size: 90% !important;
 	height: 400px;
@@ -87,19 +87,6 @@ p {
 .gist-meta {
 	font-size: 65% !important;
 }
-
-pre.prettyprint { font-weight: bold; }
-.gister-gist .str { color: #D14; }
-.gister-gist .kwd { color: #900; }
-.gister-gist .com { color: #998; }
-.gister-gist .typ { color: white; }
-.gister-gist .lit { color: #099; }
-.gister-gist .pun { color: red; }
-.gister-gist .pln { color: red; }
-.gister-gist .tag { color: white; }
-.gister-gist .atn { color: white; }
-.gister-gist .atv { color: white; }
-.gister-gist .dec { color: white; }
 
 .dosboxdbg {
 	background-color: #2e3436;

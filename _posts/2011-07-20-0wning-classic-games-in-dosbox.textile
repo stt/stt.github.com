@@ -1,26 +1,28 @@
 ---
 layout: post
-title: Owning classic PC games in Dosbox
+title: Owning classic PC games in DOSBox
 tags: python dosbox
 ---
 
 If you're old enough to have seen the PC gaming scene in early nineties, you might remember all the hexediting cheats in game magazines, trainers integrated into pirate copies and all kinds of tools available for download in the local BBSs.
 
-Nowadays when the retrogaming bug bites it's easy enough to grab a copy from abandonware site and load it up in Dosbox, but after a few minutes it usually becomes apparent your old favorites ask for way more patience than you're ready to give in comparison to modern titles. And you might find it'd be nice to enable a cheat just to browse around..
+Nowadays when the retrogaming bug bites it's easy enough to grab a copy from abandonware site and load it up in DOSBox, but after a few minutes it usually becomes apparent your old favorites ask for way more patience than you're ready to give in comparison to modern titles. And you might find it'd be nice to enable a cheat just to browse around..
 
-That's what I've been thinking about anyway, so first, there are a few ways to do memory scanning, for one you might take a @MEMDUMPBIN@ from Dosbox debugger, scan for a value in hexeditor then take a second dump and crossreference changes, but you can see how this just won't do.
+That's what I've been thinking about anyway, so first, there are a few ways to do memory scanning, for one you might take a @MEMDUMPBIN@ from DOSBox debugger, scan for a value in hexeditor then take a second dump and crossreference changes, but you can see how this just won't do.
+
 Second, there are a few memory scanners also for Linux; scanmem (with a GUI called gameconqueror) seems to works just as well as the Windows ones and would normally be the way to go. Except, they depend on the specific version of the emulator because the base address of the emulated memory changes. And especially if you're compiling new versions all the time, keeping the addresses up to date is just silly.
-Third, I wanted something like the trainers of the past, that's just ready to go once you load the game, so here's cheat.py..
 
-<script src="http://gist-it.appspot.com/github/stt/dosbox-python/blob/master/scripts/python/cheat.py"></script>
+Third, I wanted something like the trainers of the past, that's just ready to go once you load the game.
+So here's "cheat.py":https://github.com/stt/dosbox-python/blob/master/scripts/python/cheat.py
 
-To utilize it you do need the "Python support":https://github.com/stt/dosbox-python/
-For Windows there is pre-built installer at https://github.com/stt/dosbox-python/downloads
+To utilize it you need DOSBox "Python support":https://github.com/stt/dosbox-python/
+For Windows there is pre-built installer on the "download page":https://github.com/stt/dosbox-python/downloads
 To install it in Linux try this:
-<code>git clone git://github.com/stt/dosbox-python.git; cd dosbox-python; sh autogen.sh; ./configure --enable-debug=heavy --enable-python; sudo make install</code>
+<code>git clone git://github.com/stt/dosbox-python.git; cd dosbox-python</code>
+<code>sh autogen.sh; ./configure --enable-debug=heavy --enable-python; sudo make install</code>
 
 Currently the script supports SQLite database for loading/saving variable locations and code change locations. Also rudimentary memory scanning/filtering/holding operations are available.
-Once the script is loaded into Dosbox, when you break into the debugger and run @HELP@, you'll also get the commands that the script supports..
+Once the script is loaded into DOSBox, when you break into the debugger and run @HELP@, you'll also get the commands that the script supports..
 
 <notextile>
 <pre class="dosboxdbg">
