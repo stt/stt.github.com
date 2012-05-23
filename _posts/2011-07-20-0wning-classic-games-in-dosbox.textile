@@ -8,14 +8,16 @@ If you're old enough to have seen the PC gaming scene in early nineties, you mig
 
 Nowadays when the retrogaming bug bites it's easy enough to grab a copy from abandonware site and load it up in Dosbox, but after a few minutes it usually becomes apparent your old favorites ask for way more patience than you're ready to give in comparison to modern titles. And you might find it'd be nice to enable a cheat just to browse around..
 
-That's what I've been thinkin about anyway, so first, there are a few ways to do memory scanning, for one you might take a @MEMDUMPBIN@ from Dosbox debugger, scan for a value in hexeditor then take a second dump and crossreference changes, but you can see how this just won't do.
+That's what I've been thinking about anyway, so first, there are a few ways to do memory scanning, for one you might take a @MEMDUMPBIN@ from Dosbox debugger, scan for a value in hexeditor then take a second dump and crossreference changes, but you can see how this just won't do.
 Second, there are a few memory scanners also for Linux; scanmem (with a GUI called gameconqueror) seems to works just as well as the Windows ones and would normally be the way to go. Except, they depend on the specific version of the emulator because the base address of the emulated memory changes. And especially if you're compiling new versions all the time, keeping the addresses up to date is just silly.
 Third, I wanted something like the trainers of the past, that's just ready to go once you load the game, so here's cheat.py..
 
-<script src="https://gist.github.com/1094887.js?file=cheat.py"></script>
+<script src="http://gist-it.appspot.com/github/stt/dosbox-python/blob/master/scripts/python/cheat.py"></script>
 
-To utilize it you do need the "Python support":https://github.com/stt/dosbox-svn/, to install it in Linux try this:
-<code>git clone git://github.com/stt/dosbox-svn.git; cd dosbox-svn; sh autogen.sh; ./configure --enable-debug=heavy; sudo make install</code>
+To utilize it you do need the "Python support":https://github.com/stt/dosbox-python/
+For Windows there is pre-built installer at https://github.com/stt/dosbox-python/downloads
+To install it in Linux try this:
+<code>git clone git://github.com/stt/dosbox-python.git; cd dosbox-python; sh autogen.sh; ./configure --enable-debug=heavy --enable-python; sudo make install</code>
 
 Currently the script supports SQLite database for loading/saving variable locations and code change locations. Also rudimentary memory scanning/filtering/holding operations are available.
 Once the script is loaded into Dosbox, when you break into the debugger and run @HELP@, you'll also get the commands that the script supports..
@@ -53,7 +55,7 @@ One thing though with these premade tables is that pretty much all of them have 
 
 <script src="https://gist.github.com/1094887.js?file=amtfix.py"></script>
 
-Each time a binary file is executed a hash is taken (using MurmurHash algorithm, it's one of the fastest and most collision resistant hashes) and passed to callback function in cheat.py. If the script finds a match for the hash in cheat.db SQLite database it loads the variables to the debugging GUI.
+Each time a binary file is executed a hash is calculated (using MurmurHash3 algorithm, it's one of the fastest and most collision resistant hashes) and if cheat.py finds a match for the hash in cheat.db SQLite database it loads the variables to the debugging UI.
 
 Here's an example of a game with fields:
 
@@ -112,6 +114,6 @@ Invincible applied
 </notextile>
 
 <br/>
-This ain't all that user friendly yet, since you have to compile it and all, but by the time there's a Windows installer ready with Python support etc I've hopefully added a wx GUI for all this cheating stuff.
+There is a wx GUI in the works to manage the cheats without having to write commands, but that's a post for another day.
 Until then, happy gaming.
 
